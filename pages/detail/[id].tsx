@@ -18,7 +18,6 @@ interface IProps {
   postDetails: Video;
 }
 
-
 const Detail = ({ postDetails }: IProps) => {
   const [post, setPost] = useState(postDetails)
   const [playing, setPlaying] = useState<boolean>(false);
@@ -30,8 +29,6 @@ const Detail = ({ postDetails }: IProps) => {
   const router = useRouter();
 
   const { userProfile }: any = userAuthStore();
-
-
 
   const onVideoClick = () => {
     if (playing) {
