@@ -15,20 +15,23 @@ import LikeButton from './../../components/LikeButton';
 import Comments from './../../components/Comments';
 
 interface IProps {
-  postDetails: Video
+  postDetails: Video;
 }
+
 
 const Detail = ({ postDetails }: IProps) => {
   const [post, setPost] = useState(postDetails)
-  const [playing, setPlaying] = useState(false)
-  const [isMuted, setIsMuted] = useState(false)
+  const [playing, setPlaying] = useState<boolean>(false);
+  const [isMuted, setIsMuted] = useState<boolean>(false);
+  const [comment, setComment] = useState<string>('');
+  const [isPostingComment, setIsPostingComment] = useState<boolean>(false);
+
   const videoRef = useRef<HTMLVideoElement>(null);
   const router = useRouter();
-  const { userProfile }: any = userAuthStore();
-  const [comment, setComment] = useState('');
-  const [isPostingComment, setIsPostingComment] = useState(false);
 
-  if (!post) return null;
+  const { userProfile }: any = userAuthStore();
+
+
 
   const onVideoClick = () => {
     if (playing) {
@@ -41,10 +44,11 @@ const Detail = ({ postDetails }: IProps) => {
   }
 
   useEffect(() => {
-    if (post && videoRef?.current) {
-      videoRef.current.muted = isMuted;
-    }
-  }, [post, isMuted])
+    if (videoRef?.current) {
+      videoRef.current.muted = isMuted
+    } 
+  }, [post, isMuted]);
+  
 
   const handleLike = async (like: boolean) => {
     if (userProfile) {
@@ -57,7 +61,7 @@ const Detail = ({ postDetails }: IProps) => {
     }
   }
 
-  const addComment = async (e : any) => {
+  const addComment = async (e: any) => {
     e.preventDefault();
 
     if (userProfile && comment) {
@@ -67,11 +71,13 @@ const Detail = ({ postDetails }: IProps) => {
         userId: userProfile._id,
         comment
       })
-      setPost({ ...post, comments: data.comments})
+      setPost({ ...post, comments: data.comments })
       setComment('')
       setIsPostingComment(false)
     }
   }
+
+ 
 
   return (
     <div className='flex w-full absolute left-0 top-0 bg-white flex-wrap lg:flex-nowrap'>
